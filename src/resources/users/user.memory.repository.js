@@ -1,48 +1,44 @@
-const fs = require('fs');
-const path = require('path');
-const util = require('util');
+const User = require('./user.model');
 
-const readFile = util.promisify(fs.readFile);
-const writeFile = util.promisify(fs.writeFile);
-
-const pathToUsers = path.join(__dirname, '../../data/users.json');
+let users = [];
 
 const getAll = async () => {
-  const jsonUsers = await readFile(pathToUsers, 'utf-8');
-  const users = JSON.parse(jsonUsers);
   return users;
 };
 
-const getByID = async id => {
-  const users = await getAll();
-  return users.find(user => user.id === id);
+const getById = async id => {
+  const user = users.find(item => item.id === id);
+  return user;
 };
 
-const setUser = users => {
-  return writeFile(pathToUsers, JSON.stringify(users));
+const createUser = async ({ name, login, password }) => {
+  const user = new User({ name, login, password });
+  users.push(user);
+  return user;
 };
 
-const addUser = async obj => {
-  const users = await getAll();
-  const newUsers = users.concat(obj);
-  setUser(newUsers);
+const updateUserById = async ({ id, name, login, password }) => {
+  const user = users.find(item => item.id === id);
+  if (user) {
+    if (name) user.name = name;
+    if (login) user.login = login;
+    if (password) user.password = password;
+  }
+  return user;
 };
 
-const changeUser = async (id, obj) => {
-  const users = await getAll();
-  const index = users.findIndex(item => item.id === id);
-  users[index].name = obj.name;
-  users[index].login = obj.login;
-  users[index].password = obj.password;
-  setUser(users);
-  return users[index];
+const deleteUserById = async id => {
+  const user = users.find(item => item.id === id);
+  if (user) {
+    users = users.filter(item => item.id !== id);
+  }
+  return user;
 };
 
-const deleteUser = async id => {
-  const users = await getAll();
-  const newUsers = users.filter(item => item.id !== id);
-  setUser(newUsers);
-  return users.length === newUsers.length;
+module.exports = {
+  getAll,
+  getById,
+  createUser,
+  updateUserById,
+  deleteUserById
 };
-
-module.exports = { getAll, getByID, addUser, changeUser, deleteUser };
