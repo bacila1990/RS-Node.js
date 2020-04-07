@@ -28,9 +28,7 @@ const updateBoardById = async ({ id, title, columns }) => {
 
 const deleteBoardById = async id => {
   const board = boards.find(item => item.id === id);
-  if (board) {
-    boards = boards.filter(item => item.id !== id);
-  }
+  if (board) boards = boards.filter(item => item.id !== id);
   return board;
 };
 

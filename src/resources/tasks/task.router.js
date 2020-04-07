@@ -10,11 +10,8 @@ router.route('/').get(async (req, res) => {
 
 router.route('/:id').get(async (req, res) => {
   const task = await tasksService.getById(req.params.id);
-  if (task) {
-    res.status(200).json(Task.toResponse(task));
-  } else {
-    res.status(404).json(`Task with id ${req.params.id} not found`);
-  }
+  if (task) res.status(200).json(Task.toResponse(task));
+  else res.status(404).json(`Task with id ${req.params.id} not found`);
 });
 
 router.route('/').post(async (req, res) => {
@@ -25,20 +22,14 @@ router.route('/').post(async (req, res) => {
 
 router.route('/:id').put(async (req, res) => {
   const task = await tasksService.updateTaskById(req.params.id, req.body);
-  if (task) {
-    res.status(200).json(Task.toResponse(task));
-  } else {
-    res.status(404).json(`Task with id ${req.params.id} not found`);
-  }
+  if (task) res.status(200).json(Task.toResponse(task));
+  else res.status(404).json(`Task with id ${req.params.id} not found`);
 });
 
 router.route('/:id').delete(async (req, res) => {
   const task = await tasksService.deleteTaskById(req.params.id);
-  if (task) {
-    res.status(204).json(`Task with id ${req.params.id} deleted`);
-  } else {
-    res.status(404).json(`Task with id ${req.params.id} not found`);
-  }
+  if (task) res.status(204).json(`Task with id ${req.params.id} deleted`);
+  else res.status(404).json(`Task with id ${req.params.id} not found`);
 });
 
 module.exports = router;

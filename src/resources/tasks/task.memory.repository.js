@@ -54,17 +54,13 @@ const updateTaskById = async ({
 
 const deleteTaskById = async id => {
   const task = tasks.find(item => item.id === id);
-  if (task) {
-    tasks = tasks.filter(item => item.id !== id);
-  }
+  if (task) tasks = tasks.filter(item => item.id !== id);
   return task;
 };
 
 const unassignById = async userId => {
-  tasks.forEach(task => {
-    if (task.userId === userId) {
-      task.userId = null;
-    }
+  tasks.map(task => {
+    if (task.userId === userId) task.userId = null;
   });
   return;
 };

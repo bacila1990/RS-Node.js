@@ -1,6 +1,25 @@
 const User = require('./user.model');
 
-let users = [];
+let users = [
+  {
+    id: '1',
+    name: 'Vasiliy',
+    login: 'userVasiliy',
+    password: 'passwordVasiliy'
+  },
+  {
+    id: '2',
+    name: 'nikita',
+    login: 'userNikita',
+    password: 'passwordNikita'
+  },
+  {
+    id: '3',
+    name: 'Valera',
+    login: 'userValera',
+    password: 'passwordValera'
+  }
+];
 
 const getAll = async () => {
   return users;
@@ -29,9 +48,7 @@ const updateUserById = async ({ id, name, login, password }) => {
 
 const deleteUserById = async id => {
   const user = users.find(item => item.id === id);
-  if (user) {
-    users = users.filter(item => item.id !== id);
-  }
+  if (user) users = users.filter(item => item.id !== id);
   return user;
 };
 
